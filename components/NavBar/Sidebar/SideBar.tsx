@@ -126,8 +126,8 @@ export default function SideBar({ setOpenSideMenu }: SideBarProps) {
         </div>
 
         <div className={Style.sideBar_button}>
-          <Button btnName="Create" handleClick={() => {}} />
-          <Button btnName="Connect Wallet" handleClick={() => {}} />
+          <Button btnName="Create" />
+          <Button btnName="Connect Wallet" />
         </div>
       </div>
     </div>

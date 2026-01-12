@@ -1,9 +1,16 @@
-import React from 'react'
+"use client";
 
-export default function Button() {
+import React from "react";
+
+export type ButtonProps = {
+  btnName: string;
+  handleClick?: () => void;
+};
+
+export default function Button({ btnName, handleClick }: ButtonProps) {
   return (
-    <div>
-      
-    </div>
-  )
+    <button type="button" onClick={handleClick}>
+      {btnName}
+    </button>
+  );
 }

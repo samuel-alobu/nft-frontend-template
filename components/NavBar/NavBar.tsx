@@ -6,7 +6,6 @@ import { BsSearch } from "react-icons/bs";
 import { MdNotifications } from "react-icons/md";
 import { CgMenuRight } from "react-icons/cg";
 
-// Internal imports
 import Style from "./NavBar.module.css";
 import { Discover, HelpCenter, Notification, Profile } from "./index";
 import { Button } from "../componentindex";
@@ -23,8 +22,9 @@ export default function NavBar() {
   const [profile, setProfile] = useState(false);
   const [openSideMenu, setOpenSideMenu] = useState(false);
 
-  const openMenu = (e) => {
-    const btnText = e.target.innerText;
+  // ✅ Typed correctly (no implicit any)
+  const openMenu = (e: React.MouseEvent<HTMLParagraphElement>) => {
+    const btnText = e.currentTarget.innerText;
 
     if (btnText === "Discover") {
       setDiscover(true);
@@ -99,7 +99,7 @@ export default function NavBar() {
           </div>
 
           <div className={Style.navbar_container_right_button}>
-            <Button btnText="Create" handleClick={() => {}} />
+            <Button btnName="Create" handleClick={() => {}} />
           </div>
 
           <div className={Style.navbar_container_right_profile_box}>
