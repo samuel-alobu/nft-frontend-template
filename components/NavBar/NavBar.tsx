@@ -6,7 +6,6 @@ import { BsSearch } from "react-icons/bs";
 import { MdNotifications } from "react-icons/md";
 import { CgMenuRight } from "react-icons/cg";
 
-import Style from "./NavBar.module.css";
 import { Discover, HelpCenter, Notification, Profile } from "./index";
 import { Button } from "../componentindex";
 
@@ -22,7 +21,6 @@ export default function NavBar() {
   const [profile, setProfile] = useState(false);
   const [openSideMenu, setOpenSideMenu] = useState(false);
 
-  // ✅ Typed correctly (no implicit any)
   const openMenu = (e: React.MouseEvent<HTMLParagraphElement>) => {
     const btnText = e.currentTarget.innerText;
 
@@ -56,73 +54,100 @@ export default function NavBar() {
   const openSideBar = () => setOpenSideMenu((prev) => !prev);
 
   return (
-    <div className={Style.navBar}>
-      <div className={Style.navBar_container}>
-        <div className={Style.navBar_container_left}>
-          <div className={Style.logo}>
+    <div className="w-full py-6 relative z-111111111">
+      <div className="w-[80%] mx-auto grid grid-cols-2 items-center justify-between gap-4">
+        {/* Left Section */}
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] items-center">
+          {/* Logo */}
+          <div>
             <Image src={logo} alt="NFT MARKETPLACE" width={100} height={100} />
           </div>
 
-          <div className={Style.navBar_container_left_box_input}>
-            <div className={Style.navBar_container_left_box_input_box}>
-              <input type="text" placeholder="Search NFTs" />
-              <BsSearch className={Style.search_con} />
+          {/* Search (hidden on mobile) */}
+          <div>
+            <div className="w-[60%] hidden md:flex items-center p-2 rounded-4xl border border-(--icons-color)">
+              <input
+                type="text"
+                placeholder="Search NFTs"
+                className="w-[90%] border-0 outline-none bg-transparent"
+              />
+              <BsSearch
+                onClick={() => {}}
+                className="cursor-pointer text-[1.4rem]"
+              />
             </div>
           </div>
         </div>
 
-        <div className={Style.navBar_container_right}>
-          <div className={Style.navBar_container_right_discover}>
+        {/* Right Section */}
+        <div className="grid grid-cols-3 md:grid-cols-[1fr_1fr_0.5fr_1fr_0.3fr] gap-4 items-center">
+          {/* Discover Menu (hidden on mobile) */}
+          <div className="relative cursor-pointer hidden md:block">
             <p onClick={openMenu}>Discover</p>
+
             {discover && (
-              <div className={Style.navbar_container_right_discover_box}>
+              <div className="absolute p-[1rem_0.5rem] shadow-(--box-shadow) text-base w-60 rounded-2xl bg-(--main-bg)">
                 <Discover />
               </div>
             )}
           </div>
 
-          <div className={Style.navbar_container_right_help}>
+          {/* Help Center Menu (hidden on mobile) */}
+          <div className="relative cursor-pointer hidden md:block">
             <p onClick={openMenu}>Help Center</p>
+
             {help && (
-              <div className={Style.navbar_container_right_help_box}>
+              <div className="absolute p-[1rem_0.5rem] shadow-(--box-shadow) text-base w-60 rounded-2xl bg-(--main-bg)">
                 <HelpCenter />
               </div>
             )}
           </div>
 
-          <div className={Style.navbar_container_right_notify}>
+          {/* Notification */}
+          <div className="relative cursor-pointer">
             <MdNotifications
-              className={Style.notify}
+              className="text-[2rem]"
               onClick={openNotification}
             />
             {notification && <Notification />}
           </div>
 
-          <div className={Style.navbar_container_right_button}>
+          {/* Create Button (hidden on mobile) */}
+          <div className="relative cursor-pointer hidden md:block">
             <Button btnName="Create" handleClick={() => {}} />
           </div>
 
-          <div className={Style.navbar_container_right_profile_box}>
-            <div className={Style.navbar_container_right_profile}>
+          {/* User Profile */}
+          <div className="relative cursor-pointer">
+            <div>
               <Image
                 src={userImage1}
                 alt="User Profile"
                 width={40}
                 height={40}
                 onClick={openProfile}
-                className={Style.navbar_container_right_profile}
+                className="rounded-full"
               />
               {profile && <Profile />}
             </div>
           </div>
 
-          <div className={Style.navbar_container_right_menuBtn}>
-            <CgMenuRight className={Style.menuIcon} onClick={openSideBar} />
+          {/* Mobile Menu Button */}
+          <div className="block md:hidden">
+            <CgMenuRight
+              className="text-[2.5rem] cursor-pointer"
+              onClick={openSideBar}
+            />
           </div>
         </div>
       </div>
 
-      {openSideMenu && <SideBar setOpenSideMenu={setOpenSideMenu} />}
+      {/* Sidebar (mobile only) */}
+      {openSideMenu && (
+        <div className="fixed top-0 w-[24rem] bg-(--main-bg-color) shadow-(--box-shadow) h-screen overflow-y-auto z-11111 block md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <SideBar setOpenSideMenu={setOpenSideMenu} />
+        </div>
+      )}
     </div>
   );
 }

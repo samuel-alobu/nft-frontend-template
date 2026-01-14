@@ -12,17 +12,11 @@ import {
   TiSocialYoutube,
 } from "react-icons/ti";
 
-import Style from "./SideBar.module.css";
 import Button from "../../Button/Button";
 import logo from "@/public/img/logo-light.svg";
 
 type SideBarProps = {
   setOpenSideMenu: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-type ButtonProps = {
-  btnName: string;
-  handleClick?: () => void;
 };
 
 export default function SideBar({ setOpenSideMenu }: SideBarProps) {
@@ -60,41 +54,80 @@ export default function SideBar({ setOpenSideMenu }: SideBarProps) {
   ];
 
   return (
-    <div className={Style.sidebar}>
-      <GrClose className={Style.sideBar_closeBtn} onClick={closeSideBar} />
+    <div className="relative p-8 border-b border-(--icons-color) bg-(--main-bg-color)">
+      {/* Close button */}
+      <button
+        type="button"
+        aria-label="Close sidebar"
+        onClick={closeSideBar}
+        className="
+          absolute top-12 right-8
+          grid place-items-center
+          cursor-pointer
+          bg-transparent border-0
+          p-[0.6rem] rounded-lg
+          shadow-(--box-shadow)
+          transition-transform duration-200 ease-in-out
+          hover:rotate-45
+        "
+      >
+        <GrClose />
+      </button>
 
-      <div className={Style.sideBar_top}>
-        <Image src={logo} alt="logo" width={150} height={150} />
-        <p>
+      {/* Top section */}
+      <div>
+        <Image src={logo} alt="logo" width={150} height={150} priority />
+
+        <p className="-mt-8">
           Discover the most outstanding articles on all topics of NFT &amp; your
           own stories and share them
         </p>
 
-        <div className={Style.sideBar_social}>
-          <a href="#" aria-label="Facebook">
-            <TiSocialFacebook />
-          </a>
-          <a href="#" aria-label="Twitter">
-            <TiSocialTwitter />
-          </a>
-          <a href="#" aria-label="YouTube">
-            <TiSocialYoutube />
-          </a>
-          <a href="#" aria-label="Instagram">
-            <TiSocialInstagram />
-          </a>
+        {/* Socials */}
+        <div className="flex gap-[1.3rem] text-[1.5rem] items-center">
+          {[
+            { label: "Facebook", Icon: TiSocialFacebook },
+            { label: "Twitter", Icon: TiSocialTwitter },
+            { label: "YouTube", Icon: TiSocialYoutube },
+            { label: "Instagram", Icon: TiSocialInstagram },
+          ].map(({ label, Icon }) => (
+            <a
+              key={label}
+              className="
+                a__link
+                p-[0.2rem] rounded-full
+                transition-all duration-300 ease-in
+                grid
+                hover:bg-(--icons-color)
+                hover:text-(--shadow-dark-color)
+              "
+              href="#"
+              aria-label={label}
+            >
+              <Icon />
+            </a>
+          ))}
         </div>
       </div>
 
-      <div className={Style.sidebar_menu}>
+      {/* Menu section */}
+      <div className="p-8 uppercase font-medium border-b border-(--icons-color)">
+        {/* Discover */}
         <div>
-          <div className={Style.sideBar_menu_box} onClick={openDiscoverMenu}>
+          <div
+            className="flex justify-between items-center cursor-pointer py-[0.8rem]"
+            onClick={openDiscoverMenu}
+          >
             <p>Discover</p>
-            <TiArrowSortedDown />
+            <TiArrowSortedDown
+              className={`transition-transform duration-200 ease-in-out ${
+                openDiscover ? "rotate-180" : ""
+              }`}
+            />
           </div>
 
           {openDiscover && (
-            <div className={Style.sideBar_discover}>
+            <div className="px-4">
               {discover.map((el) => (
                 <p key={el.link}>
                   <Link href={el.link} onClick={closeSideBar}>
@@ -106,14 +139,22 @@ export default function SideBar({ setOpenSideMenu }: SideBarProps) {
           )}
         </div>
 
+        {/* Help Center */}
         <div>
-          <div className={Style.sideBar_menu_box} onClick={openHelpMenu}>
+          <div
+            className="flex justify-between items-center cursor-pointer py-[0.8rem]"
+            onClick={openHelpMenu}
+          >
             <p>Help Center</p>
-            <TiArrowSortedDown />
+            <TiArrowSortedDown
+              className={`transition-transform duration-200 ease-in-out ${
+                openHelp ? "rotate-180" : ""
+              }`}
+            />
           </div>
 
           {openHelp && (
-            <div className={Style.sideBar_help}>
+            <div className="px-4">
               {helpCenter.map((el) => (
                 <p key={el.link}>
                   <Link href={el.link} onClick={closeSideBar}>
@@ -125,9 +166,10 @@ export default function SideBar({ setOpenSideMenu }: SideBarProps) {
           )}
         </div>
 
-        <div className={Style.sideBar_button}>
-          <Button btnName="Create" />
-          <Button btnName="Connect Wallet" />
+        {/* Buttons */}
+        <div className="py-8 flex items-center justify-between gap-4">
+          <Button btnName="Create" handleClick={() => {}} />
+          <Button btnName="Connect Wallet" handleClick={() => {}} />
         </div>
       </div>
     </div>
